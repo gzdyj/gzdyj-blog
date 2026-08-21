@@ -61,14 +61,27 @@ jobs:
             echo "Set it in GitHub Secrets with your 又拍云 operator password"
             exit 0
           fi
-          # 又拍云 purge API: 需要 MD5 签名认证
-          URLS="https://blog.zinzin.cc/ https://blog.zinzin.cc/index.html https://blog.zinzin.cc/about/ https://blog.zinzin.cc/about/index.html"
+          # 生成全站刷新 URL 列表。仅刷新首页/about 不够：
+          # sync --delete 会删除旧的 hash 资源，若 CDN 仍缓存引用旧资源的 HTML（文章/归档页），
+          # 页面会因 CSS 404 而错乱。所以每次部署后必须刷新所有页面。
+          PURGE_URLS="https://blog.zinzin.cc/ https://blog.zinzin.cc/index.html"
+          while IFS= read -r -d '' f; do
+            rel="${f#dist/}"
+            if [ "$rel" != "index.html" ]; then
+              page="https://blog.zinzin.cc/${rel%/index.html}"
+              PURGE_URLS="${PURGE_URLS} ${page}/ ${page}/index.html"
+            fi
+          done < <(find dist -type f -name index.html -print0)
+          # 固定路径资源（sitemap / RSS）一并刷新
+          PURGE_URLS="${PURGE_URLS} https://blog.zinzin.cc/rss.xml https://blog.zinzin.cc/sitemap-index.xml"
+          PURGE_DATA=$(printf '%s\n' $PURGE_URLS)
+
           DATE=$(date -u "+%a, %d %b %Y %H:%M:%S GMT")
           MD5_PWD=$(echo -n "$PASSWORD" | md5sum | cut -d ' ' -f1)
-          PURGE_DATA=$(printf "%s" "$URLS" | tr ' ' '\n')
           SIGN_INPUT="${PURGE_DATA}&${BUCKET}&${DATE}&${MD5_PWD}"
           SIGN=$(echo -n "$SIGN_INPUT" | md5sum | cut -d ' ' -f1)
           AUTH="UpYun ${BUCKET}:${OPERATOR}:${SIGN}"
+          echo "Purging $(printf '%s' "$PURGE_DATA" | grep -c '^https') URLs"
           curl -s -X POST "http://purge.upyun.com/purge/" \
             -H "Authorization: ${AUTH}" \
             -H "Date: ${DATE}" \
