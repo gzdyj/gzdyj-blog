@@ -1,12 +1,11 @@
-***
-
+---
 title: "天邑 TEWA-7500V 光猫：超密获取与 IPv6 防火墙放开"
 published: 2026-08-30
 description: "天邑 TEWA-7500V 移动光猫（海思 hsan + HGS 新固件）：challenge-response 登录、隐藏 TELNET 页、setObjs 开 telnet、读 lastgood.xml 拿超密、hbus 放开 IPv6 入站完整教程。"
 tags: [光猫, 网络, IPv6, 逆向, 家庭网络]
 category: 网络
 lang: "zh"
-----------
+---
 
 > 2026-08-30 实测通过。仅供个人家庭网络调优使用，请勿用于违法违规用途；获取 root 级权限有风险，操作前请自行评估（可能被运营商限速/封停，后果自负）。
 
