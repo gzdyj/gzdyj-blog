@@ -1,7 +1,7 @@
 ---
-title: "Extracting Super-Admin Password & Disabling IPv6 Firewall on a HiSilicon hsan ONT (HGS New Firmware)"
+title: "Tianyi TEWA-7500V ONT: Super Password & IPv6 Firewall"
 published: 2026-08-30
-description: "A full, reproducible walkthrough for China Mobile HiSilicon hsan + HGS Web ONTs: challenge-response login, hidden TELNET page, setObjs API to enable telnet, reading lastgood.xml for the super password, and the hbus protocol to loosen IPv6 ingress filtering."
+description: "China Mobile Tianyi TEWA-7500V (HiSilicon hsan + HGS new firmware): challenge-response login, hidden TELNET page, setObjs for telnet, read lastgood.xml for super password, hbus API to loosen IPv6 ingress — full reproducible guide."
 tags: [ONT, Networking, IPv6, Reverse Engineering, Home Lab]
 category: Networking
 lang: "en"
@@ -24,7 +24,7 @@ This guide targets **China Mobile ONTs running the HiSilicon hsan platform + HGS
 | Old firmware backdoors | `getpage.gch` / `cgi-bin/telnetenable.cgi` | All 404 (old guides on the web do NOT apply) |
 | telnet banner | `telnet 192.168.1.1` after enabling | `hsan login:` (HiSilicon banner, **no** `load_cli factory`) |
 
-Applicable devices: Tianyi TEWA-700 / 7500 series and other HiSilicon-based China Mobile ONTs (Broadcom variants use the `load_cli factory` path — not covered here).
+Applicable devices: **Tianyi TEWA-7500V** (10G XG-PON ONT, HiSilicon hsan platform). Other TEWA-700 / 7500 series HiSilicon ONTs from China Mobile can likely follow the same path (Broadcom variants use `load_cli factory` — not covered here).
 
 Prerequisites:
 - **Normal user credentials** printed on the ONT label (usually `user / <8-char alphanumeric>`)

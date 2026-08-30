@@ -1,8 +1,8 @@
 ***
 
-title: "天邑（海思 hsan）移动光猫超级密码获取与 IPv6 防火墙放开实录"
+title: "天邑 TEWA-7500V 光猫：超密获取与 IPv6 防火墙放开"
 published: 2026-08-30
-description: "海思 hsan 平台 + HGS 新版 Web 固件的移动光猫，从 challenge-response 登录、隐藏 TELNET 页、setObjs 开启 telnet、读 lastgood.xml 拿超密，到 hbus 协议放开 IPv6 入站——一条完整可复现的路线。"
+description: "天邑 TEWA-7500V 移动光猫（海思 hsan + HGS 新固件）：challenge-response 登录、隐藏 TELNET 页、setObjs 开 telnet、读 lastgood.xml 拿超密、hbus 放开 IPv6 入站完整教程。"
 tags: \[光猫, 网络, IPv6, 逆向, 家庭网络]
 category: 网络
 lang: "zh"
@@ -19,13 +19,13 @@ lang: "zh"
 本教程适用**海思 hsan 平台 + HGS 新版 Web 固件**的移动光猫。验证特征：
 
 | 检查项           | 命令/方法                                           | 本机实测                                     | <br />                         |
-| ------------- | ----------------------------------------------- | ---------------------------------------- | :----------------------------- |
+| ------------- | ----------------------------------------------- | ---------------------------------------- | ------------------------------ |
 | Web 主页        | \`curl -s <http://192.168.1.1/>                 | wc -c\`                                  | \~266KB 大单页（easyui SPA，全部页面内嵌） |
 | 配置字典          | \`curl -s <http://192.168.1.1/json/config.json> | wc -c\`                                  | 存在，\~128KB                     |
 | 老固件后门         | `getpage.gch` / `cgi-bin/telnetenable.cgi`      | 均 404（新固件已封，网上老教程不适用）                    | <br />                         |
 | telnet banner | 开启后 telnet 192.168.1.1                          | `hsan login:`（海思标志，无 `load_cli factory`） | <br />                         |
 
-设备范围：天邑 TEWA-700/7500 系列等海思方案的移动光猫（注意博通版走的是另一套 `load_cli factory` 路线，本教程不适用）。
+适用设备：**天邑 TEWA-7500V**（10G XG-PON ONT，海思 hsan 平台），同系列 TEWA-700/7500 其他海思方案机型可对照尝试（博通版走 `load_cli factory` 路线，本教程不适用）。
 
 前置条件：
 
